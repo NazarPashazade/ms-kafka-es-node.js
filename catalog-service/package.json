@@ -1,11 +1,13 @@
 {
   "name": "catalog-service",
   "version": "1.0.0",
-  "main": "index.js",
+  "main": "src/server.ts",
   "scripts": {
     "dev": "nodemon",
     "build": "tsc",
-    "start": "npm run build && node dist/server.js"
+    "start": "npm run build && node dist/server.js",
+    "clean": "rm -rf dist",
+    "test": "jest --watchAll"
   },
   "keywords": [],
   "author": "",
@@ -17,7 +19,15 @@
   },
   "devDependencies": {
     "@types/express": "^5.0.3",
+    "@types/jest": "^30.0.0",
     "@types/node": "^24.1.0",
+    "@types/supertest": "^6.0.3",
+    "@faker-js/faker": "^9.9.0",
+    "@types/rosie": "^0.0.45",
+    "rosie": "^2.1.1",
+    "jest": "^30.0.5",
+    "supertest": "^7.1.4",
+    "ts-jest": "^29.4.0",
     "ts-node": "^10.9.2",
     "typescript": "^5.9.2"
   }

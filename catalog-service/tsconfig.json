@@ -1,7 +1,5 @@
 {
   "compilerOptions": {
-    "types": [],
-
     // Other Outputs
     "sourceMap": true,
     "declaration": true,
@@ -28,6 +26,8 @@
 
     "experimentalDecorators": true,
 
-    "verbatimModuleSyntax": false
+    "verbatimModuleSyntax": false,
+
+    "types": ["jest"]
   }
 }
