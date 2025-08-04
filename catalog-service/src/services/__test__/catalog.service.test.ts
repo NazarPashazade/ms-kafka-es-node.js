@@ -1,10 +1,9 @@
-import { mock } from "node:test";
-import { ICatalogRepository } from "../../interfaces/catalog-repository.interface";
-import { CatalogRepository } from "../../repositories/catalog.repository";
-import { CatalogService } from "../catalog.service";
 import { faker } from "@faker-js/faker";
+import { ICatalogRepository } from "../../interfaces/catalog-repository.interface";
 import { Product } from "../../models/product.model";
-import { Factory } from "rosie";
+import { CatalogRepository } from "../../repositories/catalog.repository";
+import { ProductFactory } from "../../utils/fixtures";
+import { CatalogService } from "../catalog.service";
 
 const mockProduct = (rest?: any): Product => {
   return {
@@ -15,13 +14,6 @@ const mockProduct = (rest?: any): Product => {
     ...rest,
   };
 };
-
-const productFactory = new Factory<Product>()
-  .attr("id", faker.number.int({ min: 1, max: 100 }))
-  .attr("name", faker.commerce.productName())
-  .attr("description", faker.commerce.productDescription())
-  .attr("price", Number(faker.commerce.price()))
-  .attr("stock", faker.number.int({ min: 1, max: 100 }));
 
 describe("Catalog Service Tests", () => {
   let repository: ICatalogRepository;
@@ -115,7 +107,7 @@ describe("Catalog Service Tests", () => {
       const service = new CatalogService(repository);
 
       const randomLimit = faker.number.int({ min: 1, max: 10 });
-      const mockProducts = productFactory.buildList(randomLimit);
+      const mockProducts = ProductFactory.buildList(randomLimit);
 
       jest
         .spyOn(repository, "find")
@@ -132,7 +124,7 @@ describe("Catalog Service Tests", () => {
     test("should get product by Id", async () => {
       const service = new CatalogService(repository);
 
-      const mockProduct = productFactory.buildList(1)[0]!;
+      const mockProduct = ProductFactory.buildList(1)[0]!;
 
       jest
         .spyOn(repository, "findOne")

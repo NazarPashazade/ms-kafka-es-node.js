@@ -14,18 +14,20 @@
   "license": "ISC",
   "description": "",
   "dependencies": {
+    "class-transformer": "^0.5.1",
+    "class-validator": "^0.14.2",
     "express": "^5.1.0",
     "nodemon": "^3.1.10"
   },
   "devDependencies": {
+    "@faker-js/faker": "^9.9.0",
     "@types/express": "^5.0.3",
     "@types/jest": "^30.0.0",
     "@types/node": "^24.1.0",
-    "@types/supertest": "^6.0.3",
-    "@faker-js/faker": "^9.9.0",
     "@types/rosie": "^0.0.45",
-    "rosie": "^2.1.1",
+    "@types/supertest": "^6.0.3",
     "jest": "^30.0.5",
+    "rosie": "^2.1.1",
     "supertest": "^7.1.4",
     "ts-jest": "^29.4.0",
     "ts-node": "^10.9.2",
