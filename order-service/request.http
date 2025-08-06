@@ -1,0 +1,57 @@
+### Create a new cart
+POST http://localhost:9003/api/cart
+Content-Type: application/json
+
+{
+  "name": "New Product",
+  "description": "This is a new product",
+  "price": 29,
+  "stock": 100
+}
+
+
+### Update cart
+PATCH http://localhost:9003/api/cart/1
+Content-Type: application/json
+
+{
+  "name": "Update Cart"
+}
+
+
+### Delete cart
+DELETE http://localhost:9003/api/cart/1
+Content-Type: application/json
+
+
+### Get cart
+GET http://localhost:9003/api/cart
+
+
+
+# --------------------------------------------------------------
+
+
+### Create Order
+POST http://localhost:9003/api/orders
+Content-Type: application/json
+
+{
+  "name": "New Product",
+  "description": "This is a new product",
+  "price": 29,
+  "stock": 100
+}
+
+
+### Delete Order
+DELETE http://localhost:9003/api/orders/1
+Content-Type: application/json
+
+
+### Get Orders
+GET http://localhost:9003/api/orders
+
+
+### Get Order by ID
+GET http://localhost:9003/api/orders/1
