@@ -61,3 +61,27 @@ For Validation
 ```
 npm install class-validator class-transformer.
 ```
+
+---
+
+## Set up Database for catalog-service
+
+### Install dependencies
+
+```
+npm install --save-dev prisma
+```
+
+### create schema.prisma and .env files (update values)
+
+```
+npx prisma init --datasource-provider postgresql
+```
+
+adjust .env file: DATABASE_URL="postgresql://postgres:Database123!@localhost:5432/catalog-db?schema=public"
+
+Create new Migration (Migration folder will be created)
+
+```
+npx prisma migrate dev --name init
+```

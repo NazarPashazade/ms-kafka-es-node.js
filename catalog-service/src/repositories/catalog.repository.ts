@@ -1,30 +1,37 @@
+import { UpdateProductRequest } from "../dto/product.dto";
+import { PrismaClient } from "../generated/prisma";
 import type { ICatalogRepository } from "../interfaces/catalog-repository.interface";
 import type { Product } from "../models/product.model";
 
 export class CatalogRepository implements ICatalogRepository {
-  findOne(id: number): Promise<Product | null> {
-    return Promise.resolve({} as Product);
+  _prisma: PrismaClient;
+
+  constructor() {
+    this._prisma = new PrismaClient();
   }
 
-  find(limit: number, offset: number): Promise<Product[]> {
-    return Promise.resolve([{} as Product]);
+  async findOne(id: number): Promise<Product | null> {
+    const product = await this._prisma.product.findFirst({ where: { id } });
+    if (!product) throw new Error(`Product with id ${id} not found`);
+    return product;
   }
 
-  create(product: Product): Promise<Product> {
-    return Promise.resolve({
-      id: Math.floor(Math.random() * 1000),
-      ...product,
-    });
+  async find(limit: number, offset: number): Promise<Product[]> {
+    return await this._prisma.product.findMany({ take: limit, skip: offset });
   }
 
-  update(id: number, product: Product): Promise<Product | null> {
-    return Promise.resolve({
-      id,
-      ...product,
-    });
+  async create(product: Product): Promise<Product> {
+    return await this._prisma.product.create({ data: product });
   }
 
-  delete(id: number): Promise<number> {
-    throw new Error("Method not implemented.");
+  async update(
+    id: number,
+    product: UpdateProductRequest
+  ): Promise<Product | null> {
+    return await this._prisma.product.update({ where: { id }, data: product });
+  }
+
+  async delete(id: number): Promise<number> {
+    return (await this._prisma.product.delete({ where: { id } })).id;
   }
 }

@@ -1,8 +1,8 @@
 import * as express from "express";
-import { CatalogService } from "../services/catalog.service";
 import { CatalogRepository } from "../repositories/catalog.repository";
-import { CreateProductRequest, UpdateProductRequest } from "../dto/product.dto";
+import { CatalogService } from "../services/catalog.service";
 import { RequestValidator } from "../utils/request-validator";
+import { CreateProductRequest } from "../dto/product.dto";
 
 export const catalogRouter = express.Router();
 

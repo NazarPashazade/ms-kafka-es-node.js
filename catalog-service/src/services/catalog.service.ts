@@ -1,3 +1,4 @@
+import { CreateProductRequest, UpdateProductRequest } from "../dto/product.dto";
 import type { Product } from "../models/product.model";
 import type { CatalogRepository } from "../repositories/catalog.repository";
 
@@ -8,13 +9,13 @@ export class CatalogService {
     this._catalogRepository = catalogRepository;
   }
 
-  async createProduct(data: any): Promise<Product> {
+  async createProduct(data: CreateProductRequest): Promise<Product> {
     const product = await this._catalogRepository.create(data);
     if (!product.id) throw new Error("unable to create product");
     return product;
   }
 
-  async updateProduct(id: number, product: any): Promise<any> {
+  async updateProduct(id: number, product: UpdateProductRequest): Promise<any> {
     return this._catalogRepository.update(id, product);
   }
 

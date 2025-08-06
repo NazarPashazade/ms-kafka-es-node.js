@@ -1,11 +1,32 @@
+### Create a new product
 POST http://localhost:3000/api/catalog/products
-
 Content-Type: application/json
 
 {
-  "name": "New Product",
-  "description": "This is a new product",
-  "price": 29.99,
-  "stock": 100,
-  "id": 12345
+    "name": "New Product",
+    "description": "This is a new product",
+    "price": 29,
+    "stock": 100
 }
+
+### Update product
+PATCH http://localhost:3000/api/catalog/products/2
+Content-Type: application/json
+
+{
+    "name": "Updated Product"
+}
+
+### Delete product
+DELETE http://localhost:3000/api/catalog/products/4
+Content-Type: application/json
+
+
+### Get products by Limit and Offset
+GET http://localhost:3000/api/catalog/products?limit=10&offset=0
+Content-Type: application/json
+
+
+### Get products by Id
+GET http://localhost:3000/api/catalog/products/2
+Content-Type: application/json
