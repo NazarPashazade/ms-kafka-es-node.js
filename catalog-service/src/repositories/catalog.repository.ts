@@ -21,7 +21,7 @@ export class CatalogRepository implements ICatalogRepository {
   }
 
   async create(product: Product): Promise<Product> {
-    return await this._prisma.product.create({ data: product });
+    return await this._prisma.product.create({ data: product as any });
   }
 
   async update(
