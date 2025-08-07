@@ -1,19 +1,30 @@
 services:
-  postgres-db:
+  catalog-db-server:
     image: postgres:alpine
-    container_name: postgres
+    container_name: catalog
     restart: unless-stopped
     environment:
       - POSTGRES_PASSWORD=Database123!
       - POSTGRES_USER=postgres
       - POSTGRES_DB=catalog-db
     volumes:
-      - ./postgres-data:/var/lib/postgresql/data
+      - ./postgres-data/catalog-db-server:/var/lib/postgresql/data
     ports:
       - "5432:5432"
-    command: >
-      sh -c "docker-entrypoint.sh postgres &&
-             psql -U postgres -c 'CREATE DATABASE \"catalog-db\";'"
+
+  order-db-server:
+    image: postgres:alpine
+    container_name: order
+    restart: unless-stopped
+    environment:
+      - POSTGRES_PASSWORD=Database123!
+      - POSTGRES_USER=postgres
+      - POSTGRES_DB=order-db
+    volumes:
+      - ./postgres-data/order-db-server:/var/lib/postgresql/data
+    ports:
+      - "5433:5432"
+
   pgadmin:
     image: dpage/pgadmin4:latest
     container_name: pgadmin
@@ -24,4 +35,5 @@ services:
     ports:
       - "8080:80"
     depends_on:
-      - postgres-db
+      - catalog-db-server
+      - order-db-server
