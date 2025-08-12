@@ -4,8 +4,8 @@ Content-Type: application/json
 
 {
   "customerId": 1,
-  "productId": 1,
-  "qty": 155
+  "productId": 5,
+  "qty": 1
 }
 
 

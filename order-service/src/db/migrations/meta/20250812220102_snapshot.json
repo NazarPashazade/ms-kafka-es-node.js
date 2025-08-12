@@ -1,6 +1,6 @@
 {
-  "id": "937ecd6c-6235-4f29-b280-b803aa9598b5",
-  "prevId": "9b04cf81-37f9-4596-8a3d-8db1c34dc5b5",
+  "id": "b6a7e950-0ce6-4a70-aea9-b4df4c0a72b6",
+  "prevId": "00000000-0000-0000-0000-000000000000",
   "version": "7",
   "dialect": "postgresql",
   "tables": {
@@ -97,8 +97,8 @@
           "primaryKey": true,
           "notNull": true
         },
-        "user_id": {
-          "name": "user_id",
+        "customer_id": {
+          "name": "customer_id",
           "type": "integer",
           "primaryKey": false,
           "notNull": true

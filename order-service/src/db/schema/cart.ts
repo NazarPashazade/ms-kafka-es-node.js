@@ -10,7 +10,7 @@ import {
 
 export const carts = pgTable("carts", {
   id: serial("id").primaryKey(),
-  customerId: integer("user_id").notNull(),
+  customerId: integer("customer_id").notNull(),
   createdAt: timestamp("created_at").notNull().defaultNow(),
   updatedAt: timestamp("updated_at").notNull().defaultNow(),
 });
@@ -19,15 +19,15 @@ export type Cart = InferSelectModel<typeof carts>;
 export type NewCart = InferInsertModel<typeof carts>;
 
 export const cartItems = pgTable("cart_items", {
-  id: serial("id").primaryKey(), // for db record
+  id: serial("id").primaryKey(),
   productId: integer("product_id").notNull(),
   cartId: integer("cart_id")
     .references(() => carts.id, { onDelete: "cascade" })
     .notNull(),
-  itemName: varchar("item_name").notNull(), // human readable
-  variant: varchar("variant"), // Small // medium // big
+  itemName: varchar("item_name").notNull(),
+  variant: varchar("variant"),
   qty: integer("qty").notNull(),
-  price: numeric("amount").notNull(), // amount in cents
+  price: numeric("amount").notNull(),
   createdAt: timestamp("created_at").notNull().defaultNow(),
   updatedAt: timestamp("updated_at").notNull().defaultNow(),
 });
