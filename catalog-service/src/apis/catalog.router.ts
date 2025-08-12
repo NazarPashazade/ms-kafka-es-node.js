@@ -50,7 +50,7 @@ catalogRouter.get("/products", async (req, res) => {
   }
 });
 
-catalogRouter.get("/products/:id", async (req, res) => {
+catalogRouter.get("/products/:id", async (req, res, next) => {
   try {
     const id = Number(req.params.id || "0");
 
@@ -58,7 +58,7 @@ catalogRouter.get("/products/:id", async (req, res) => {
 
     res.status(200).json(result);
   } catch (error) {
-    res.status(500).json((error as Error).message || "Internal Server Error");
+    next(error);
   }
 });
 

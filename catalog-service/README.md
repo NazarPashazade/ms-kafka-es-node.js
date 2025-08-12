@@ -81,3 +81,9 @@ npx prisma migrate dev --name init
 ```
 
 ---
+
+Logging
+
+```
+npm i pino pino-http pino-pretty
+```

@@ -48,3 +48,9 @@ Download DTO mapping libraries:
 ```
 npm i @sinclair/typebox ajv
 ```
+
+Logging
+
+```
+npm i pino pino-http pino-pretty
+```
