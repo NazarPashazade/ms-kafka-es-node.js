@@ -9,7 +9,7 @@ export const CartRepository: CartRepositoryType = {
     customerId: number,
     cartItem: CartItem
   ): Promise<number> {
-    const { createdAt, price, itemName, qty, variant, productId } = cartItem;
+    const { price, itemName, qty, variant, productId } = cartItem;
 
     const result = await DB.insert(carts)
       .values({ customerId })

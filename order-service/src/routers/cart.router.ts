@@ -1,13 +1,11 @@
 import * as express from "express";
-import * as cartService from "../services/cart.service";
-import { CartRepository } from "../repositories/cart.repository";
-import { CartService as service } from "../services/cart.service";
-import { ValidateRequest } from "../utils/validator";
-import { CartRepositoryType } from "../types/repository.type";
 import {
   CreateCartRequestInput,
   CreateCartRequestSchema,
 } from "../dto/cart-request.dto";
+import { CartRepository } from "../repositories/cart.repository";
+import { CartService as service } from "../services/cart.service";
+import { ValidateRequest } from "../utils/validator";
 
 export const cartRouter = express.Router();
 
@@ -28,11 +26,17 @@ cartRouter.post("/", async (req, res) => {
   }
 });
 
-cartRouter.patch("/:id", async (req, res) => {
+cartRouter.patch("/:itemId", async (req, res) => {
   try {
-    const id = Number(req.params.id || "0");
+    const itemId = Number(req.params.itemId || "0");
 
-    const result = await service.update(id, req.body, CartRepository);
+    const result = await service.update(
+      {
+        id: itemId,
+        qty: req.body.qty,
+      },
+      CartRepository
+    );
 
     res.status(200).json(result);
   } catch (error) {
@@ -40,11 +44,11 @@ cartRouter.patch("/:id", async (req, res) => {
   }
 });
 
-cartRouter.delete("/:id", async (req, res) => {
+cartRouter.delete("/:itemId", async (req, res) => {
   try {
-    const id = Number(req.params.id || "0");
+    const itemId = Number(req.params.itemId || "0");
 
-    const result = await service.delete(id, CartRepository);
+    const result = await service.delete(itemId, CartRepository);
 
     res.status(200).json(result);
   } catch (error) {
@@ -54,7 +58,8 @@ cartRouter.delete("/:id", async (req, res) => {
 
 cartRouter.get("/", async (req, res) => {
   try {
-    const result = await service.get(CartRepository);
+    // customerId coming from JWT
+    const result = await service.get(req.body.customerId, CartRepository);
 
     res.status(200).json(result);
   } catch (error) {
