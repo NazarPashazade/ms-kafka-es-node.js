@@ -1,13 +1,11 @@
-import {
-  CreateCartRequestInput,
-  EditCartRequestInput,
-} from "../dto/cart-request.dto";
+import { CartItem } from "../db/schema";
 
 export type Cart = any;
 
 export type CartRepositoryType = {
-  find: () => Promise<Cart>;
-  create: (cart: CreateCartRequestInput) => Promise<Cart>;
-  update: (id: number, cart: EditCartRequestInput) => Promise<Cart | null>;
-  delete: (id: number) => Promise<number>;
+  find: (id: number) => Promise<Cart>;
+  create: (customerId: number, cartItem: CartItem) => Promise<number>;
+  update: (id: number, qty: number) => Promise<CartItem>;
+  delete: (id: number) => Promise<Boolean>;
+  clear: (id: number) => Promise<Boolean>;
 };

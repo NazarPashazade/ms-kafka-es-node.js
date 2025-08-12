@@ -1,5 +1,6 @@
 import { CreateCartRequestInput } from "../dto/cart-request.dto";
 import { CartRepositoryType } from "../types/repository.type";
+import { NotFoundError } from "../utils";
 import { getProductDetails } from "../utils/broker/api";
 
 export const CartService = {
@@ -7,7 +8,7 @@ export const CartService = {
     const product = await getProductDetails(input.productId);
 
     if (product.stock < input.qty) {
-      throw new Error("Product is out of stock");
+      throw new NotFoundError("Product is out of stock");
     }
 
     return await repo.create(input);

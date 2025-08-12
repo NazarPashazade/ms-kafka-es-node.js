@@ -1,34 +1,71 @@
+import { eq } from "drizzle-orm";
 import { DB } from "../db/db-connection";
-import { carts } from "../db/schema";
-import {
-  CreateCartRequestInput,
-  EditCartRequestInput,
-} from "../dto/cart-request.dto";
+import { CartItem, cartItems, carts } from "../db/schema";
 import { Cart, CartRepositoryType } from "../types/repository.type";
+import { NotFoundError } from "../utils";
 
 export const CartRepository: CartRepositoryType = {
-  find: async (): Promise<Cart[]> => {
-    // Implementation for finding carts with pagination
-    return [];
-  },
+  create: async function (
+    customerId: number,
+    cartItem: CartItem
+  ): Promise<number> {
+    const { createdAt, price, itemName, qty, variant, productId } = cartItem;
 
-  create: async (cart: CreateCartRequestInput): Promise<Cart> => {
     const result = await DB.insert(carts)
-      .values({ customerId: 123 })
-      .returning({ cartId: carts.id });
+      .values({ customerId })
+      .returning()
+      .onConflictDoUpdate({
+        target: carts.customerId,
+        set: { updatedAt: new Date() },
+      });
 
-    return result;
+    const cartId = result[0]?.id!;
+
+    if (cartId > 0) {
+      await DB.insert(cartItems).values({
+        cartId,
+        productId,
+        itemName,
+        price,
+        qty,
+        variant,
+      });
+    }
+
+    return cartId;
   },
 
-  update: async (
-    id: number,
-    input: EditCartRequestInput
-  ): Promise<Cart | null> => {
-    return input;
+  find: async function (id: number): Promise<Cart> {
+    await DB.delete(cartItems).where(eq(cartItems.id, id)).returning();
+
+    const cart = await DB.query.carts.findFirst({
+      where: eq(carts.customerId, id),
+      with: { lineItems: true },
+    });
+
+    if (!cart) {
+      throw new NotFoundError("Cart not found!");
+    }
+
+    return cart;
   },
 
-  delete: async (id: number): Promise<number> => {
-    // Implementation for deleting a cart
-    return id; // Example return value
+  update: async function (id: number, qty: number): Promise<CartItem> {
+    const [cartItem] = await DB.update(cartItems)
+      .set({ qty })
+      .where(eq(cartItems.id, id))
+      .returning();
+
+    return cartItem!;
+  },
+
+  delete: async function (id: number): Promise<Boolean> {
+    await DB.delete(cartItems).where(eq(cartItems.id, id)).returning();
+    return true;
+  },
+
+  clear: async function (id: number): Promise<Boolean> {
+    await DB.delete(carts).where(eq(carts.id, id)).returning();
+    return true;
   },
 };

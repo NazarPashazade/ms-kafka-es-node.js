@@ -2,6 +2,7 @@ import { UpdateProductRequest } from "../dto/product.dto";
 import { PrismaClient } from "../generated/prisma";
 import type { ICatalogRepository } from "../interfaces/catalog-repository.interface";
 import type { Product } from "../models/product.model";
+import { NotFoundError } from "../utils/error";
 
 export class CatalogRepository implements ICatalogRepository {
   _prisma: PrismaClient;
@@ -12,7 +13,7 @@ export class CatalogRepository implements ICatalogRepository {
 
   async findOne(id: number): Promise<Product | null> {
     const product = await this._prisma.product.findFirst({ where: { id } });
-    if (!product) throw new Error(`Product with id ${id} not found`);
+    if (!product) throw new NotFoundError(`Product with id ${id} not found`);
     return product;
   }
 
