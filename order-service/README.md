@@ -19,3 +19,32 @@ tsc --init
 ```
 
 ---
+
+### Setup Database(drizzle + postgres)
+
+Documentation: https://orm.drizzle.team/docs/get-started/postgresql-new
+
+```
+npm i drizzle-orm pg dotenv
+npm i -D drizzle-kit tsx @types/pg
+```
+
+Crete configuration file: src/config/.index.ts
+
+Add to .env file: DATABASE_URL=postgresql://postgres:Database123!@localhost:5433/catalog-db?schema=public
+
+Create new Migration (Migration folder will be created)
+
+Run these commands one by one:
+
+```
+"db:generate": "drizzle-kit generate",
+"db:migrate": "tsx ./src/db/migrations/migration.ts",
+"db:push": "drizzle-kit push"
+```
+
+Download DTO mapping libraries:
+
+```
+npm i @sinclair/typebox ajv
+```

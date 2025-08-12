@@ -3,10 +3,9 @@ POST http://localhost:9003/api/cart
 Content-Type: application/json
 
 {
-  "name": "New Product",
-  "description": "This is a new product",
-  "price": 29,
-  "stock": 100
+  "customerId": 1,
+  "productId": 1,
+  "qty": 3
 }
 
 

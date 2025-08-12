@@ -1,5 +1,5 @@
 import { CartRepository as repository } from "../repositories/cart.repository";
-import { CartRepositoryType } from "../types/repository.type";
+import { Cart, CartRepositoryType } from "../types/repository.type";
 import { CartService as service } from "./cart.service";
 
 describe("Cart Service Tests", () => {
@@ -14,10 +14,7 @@ describe("Cart Service Tests", () => {
   });
 
   it("should add an item to the cart", async () => {
-    const mockCart = {
-      title: "Smartphone",
-      amount: 30,
-    };
+    const mockCart: Cart = {};
 
     jest.spyOn(repo, "create").mockResolvedValue(mockCart as any);
 

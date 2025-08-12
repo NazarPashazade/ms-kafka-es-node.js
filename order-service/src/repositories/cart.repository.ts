@@ -1,9 +1,10 @@
+import { DB } from "../db/db-connection";
+import { carts } from "../db/schema";
 import {
-  Cart,
-  CartRepositoryType,
-  CreateCartRequest,
-  UpdateCartRequest,
-} from "../types/repository.type";
+  CreateCartRequestInput,
+  EditCartRequestInput,
+} from "../dto/cart-request.dto";
+import { Cart, CartRepositoryType } from "../types/repository.type";
 
 export const CartRepository: CartRepositoryType = {
   find: async (): Promise<Cart[]> => {
@@ -11,14 +12,19 @@ export const CartRepository: CartRepositoryType = {
     return [];
   },
 
-  create: async (cart: CreateCartRequest): Promise<Cart> => {
-    // Implementation for creating a new cart
-    return { id: 1, ...cart }; // Example return value
+  create: async (cart: CreateCartRequestInput): Promise<Cart> => {
+    const result = await DB.insert(carts)
+      .values({ customerId: 123 })
+      .returning({ cartId: carts.id });
+
+    return result;
   },
 
-  update: async (id: number, cart: UpdateCartRequest): Promise<Cart | null> => {
-    // Implementation for updating a cart
-    return { id, ...cart }; // Example return value
+  update: async (
+    id: number,
+    input: EditCartRequestInput
+  ): Promise<Cart | null> => {
+    return input;
   },
 
   delete: async (id: number): Promise<number> => {
