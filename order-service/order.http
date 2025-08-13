@@ -1,4 +1,4 @@
-### Create a new cart
+### Create a new cart  by CustomerId
 POST http://localhost:9003/api/cart
 Content-Type: application/json
 
@@ -14,7 +14,7 @@ PATCH http://localhost:9003/api/cart/1
 Content-Type: application/json
 
 {
-  "name": "Update Cart"
+  "qty": 55
 }
 
 
@@ -23,7 +23,7 @@ DELETE http://localhost:9003/api/cart/1
 Content-Type: application/json
 
 
-### Get cart
+### Get cart by CustomerId
 GET http://localhost:9003/api/cart
 
 

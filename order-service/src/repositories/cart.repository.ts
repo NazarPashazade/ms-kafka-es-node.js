@@ -11,13 +11,11 @@ export const CartRepository: CartRepositoryType = {
   ): Promise<number> {
     const { price, itemName, qty, variant, productId } = cartItem;
 
-    const result = await DB.insert(carts)
-      .values({ customerId })
-      .returning()
-      .onConflictDoUpdate({
-        target: carts.customerId,
-        set: { updatedAt: new Date() },
-      });
+    const result = await DB.insert(carts).values({ customerId }).returning();
+    // .onConflictDoUpdate({
+    //   target: carts.customerId,
+    //   set: { updatedAt: new Date() },
+    // });
 
     const cartId = result[0]?.id!;
 
@@ -35,17 +33,13 @@ export const CartRepository: CartRepositoryType = {
     return cartId;
   },
 
-  find: async function (id: number): Promise<Cart> {
-    await DB.delete(cartItems).where(eq(cartItems.id, id)).returning();
-
+  find: async function (customerId: number): Promise<Cart> {
     const cart = await DB.query.carts.findFirst({
-      where: eq(carts.customerId, id),
+      where: eq(carts.customerId, customerId),
       with: { lineItems: true },
     });
 
-    if (!cart) {
-      throw new NotFoundError("Cart not found!");
-    }
+    if (!cart) throw new NotFoundError("Cart not found!");
 
     return cart;
   },

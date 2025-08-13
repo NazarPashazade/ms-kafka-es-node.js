@@ -7,19 +7,24 @@ import { NotFoundError } from "../utils";
 import { getProductDetails } from "../utils/broker/api";
 
 export const CartService = {
-  create: async (input: CreateCartRequestInput, repo: CartRepositoryType) => {
-    const product = await getProductDetails(input.productId);
+  create: async (
+    { qty, customerId, productId }: CreateCartRequestInput,
+    repo: CartRepositoryType
+  ) => {
+    const { id, price, name, variant, stock } = await getProductDetails(
+      productId
+    );
 
-    if (product.stock < input.qty) {
+    if (stock < qty) {
       throw new NotFoundError("Product is out of stock");
     }
 
-    return await repo.create(input.customerId, {
-      productId: product.id,
-      price: product.price.toString(),
-      itemName: product.name,
-      variant: product.variant,
-      qty: input.qty,
+    return await repo.create(customerId, {
+      productId: id,
+      price: price.toString(),
+      itemName: name,
+      variant,
+      qty,
       createdAt: new Date(),
       updatedAt: new Date(),
       id: 0,
@@ -35,8 +40,8 @@ export const CartService = {
     return await repo.delete(id);
   },
 
-  get: async (id: number, repo: CartRepositoryType) => {
-    const cart = await repo.find(id);
+  get: async (customerId: number, repo: CartRepositoryType) => {
+    const cart = await repo.find(customerId);
 
     if (!cart) {
       throw new NotFoundError("Cart not found!");

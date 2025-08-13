@@ -6,11 +6,19 @@ import {
 import { CartRepository } from "../repositories/cart.repository";
 import { CartService as service } from "../services/cart.service";
 import { ValidateRequest } from "../utils/validator";
+import { RequestAuthorizer } from "../middleware/auth.middleware";
 
 export const cartRouter = express.Router();
 
-cartRouter.post("/", async (req, res) => {
+cartRouter.post("/", RequestAuthorizer, async (req, res, next) => {
   try {
+    const user = (req as any).user;
+
+    if (!user) {
+      next(new Error("User not found"));
+      return;
+    }
+
     const err = ValidateRequest<CreateCartRequestInput>(
       req.body,
       CreateCartRequestSchema
@@ -56,10 +64,16 @@ cartRouter.delete("/:itemId", async (req, res) => {
   }
 });
 
-cartRouter.get("/", async (req, res) => {
+cartRouter.get("/", RequestAuthorizer, async (req, res, next) => {
   try {
-    // customerId coming from JWT
-    const result = await service.get(req.body.customerId, CartRepository);
+    const user = (req as any).user;
+
+    if (!user) {
+      next(new Error("User not found"));
+      return;
+    }
+
+    const result = await service.get(user.customerId, CartRepository);
 
     res.status(200).json(result);
   } catch (error) {

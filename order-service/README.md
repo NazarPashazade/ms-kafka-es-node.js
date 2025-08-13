@@ -54,3 +54,11 @@ Logging
 ```
 npm i pino pino-http pino-pretty
 ```
+
+Kafka
+
+Create Types and install library
+
+```
+npm i kafkajs
+```
