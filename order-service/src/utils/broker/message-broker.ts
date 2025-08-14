@@ -51,7 +51,7 @@ const connectProducer = async <T>(): Promise<T> => {
   return producer as T;
 };
 
-const disConnectProducer = async (): Promise<void> => {
+const disconnectProducer = async (): Promise<void> => {
   if (producer) await producer.disconnect();
 };
 
@@ -87,7 +87,7 @@ const connectConsumer = async <T>(): Promise<T> => {
   return consumer as T;
 };
 
-const disConnectConsumer = async (): Promise<void> => {
+const disconnectConsumer = async (): Promise<void> => {
   if (consumer) await consumer.disconnect();
 };
 
@@ -128,9 +128,9 @@ const subscribe = async (
 
 export const messageBroker: MessageBrokerType = {
   connectProducer,
-  disConnectProducer,
+  disconnectProducer,
   publish,
   connectConsumer,
-  disConnectConsumer,
+  disconnectConsumer,
   subscribe,
 };

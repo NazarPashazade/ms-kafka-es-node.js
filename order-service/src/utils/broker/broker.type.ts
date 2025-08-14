@@ -12,12 +12,12 @@ export type MessageHandler = (input: MessageType) => void;
 export type MessageBrokerType = {
   //producer
   connectProducer: <T>() => Promise<T>;
-  disConnectProducer: () => Promise<void>;
+  disconnectProducer: () => Promise<void>;
   publish: (data: PublishType) => Promise<boolean>;
 
   //producer
   connectConsumer: <T>() => Promise<T>;
-  disConnectConsumer: () => Promise<void>;
+  disconnectConsumer: () => Promise<void>;
   subscribe: (
     messageHandler: MessageHandler,
     topic: TOPIC_TYPE
