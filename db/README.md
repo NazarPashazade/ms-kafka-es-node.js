@@ -6,7 +6,7 @@
 
      docker-compose up -d
 
-# 2. Go to LINK: (http://localhost:8080/)
+# 2. Go to LINK: (http://localhost:8080)
 
     ports:
       - "8080:80"
@@ -19,9 +19,9 @@
 
 # 4. Register Server:
 
-     1. HOSTNAME: "postgres-db"            //same as Service name
+     1. HOSTNAME: "catalog-db-server"            //same as Service name
             services:
-                postgres-db:
+                catalog-db-server:
 
      1. PORT: "5432"
 
@@ -29,4 +29,4 @@
 
      1. Password: "Database123!"
 
-# 5. "catalog-db" database will be created automatically
+# 5. Create all 3 databases "catalog-db", "order-db", "user-db"
