@@ -1,3 +1,6 @@
+@token = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiZW1haWwiOiJqb2huQGV4YW1wbGUuY29tIiwiaWF0IjoxNzU1MzQwMTgzLCJleHAiOjE3NTU4NTg1ODN9.SCztqgCtJ7CmD69PhAydxrGKmnj6sPeUtJSeBohiQrQ
+
+
 ### Register user
 POST http://localhost:3001/api/user/register
 Content-Type: application/json
@@ -21,4 +24,4 @@ Content-Type: application/json
 
 ### Validate token
 GET http://localhost:3001/api/user/validate
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiZW1haWwiOiJqb2huQGV4YW1wbGUuY29tIiwiaWF0IjoxNzU1MjUzOTg0LCJleHAiOjE3NTUzNDAzODR9.NC4rG-65MuiKdkxKQtEghE5Roqe3vFKEJ5cMa3rgJgk
+Authorization: Bearer {{token}}

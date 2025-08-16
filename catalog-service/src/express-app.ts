@@ -1,5 +1,5 @@
 import * as express from "express";
-import { catalogRouter } from "./apis/catalog.router";
+import { catalogRouter } from "./routers/catalog.router";
 import { httpLogger } from "./utils/logger";
 import { HandleErrorWithLogger } from "./utils/error";
 

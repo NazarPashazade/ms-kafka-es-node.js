@@ -35,7 +35,7 @@ export const cartItems = pgTable("cart_items", {
 export type CartItem = InferSelectModel<typeof cartItems>;
 
 export const cartRelations = relations(carts, ({ many }) => ({
-  lineItems: many(cartItems),
+  items: many(cartItems),
 }));
 
 export const CartItemRelations = relations(cartItems, ({ one }) => ({

@@ -1,34 +1,42 @@
+@token = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiZW1haWwiOiJqb2huQGV4YW1wbGUuY29tIiwiaWF0IjoxNzU1MzQwMTgzLCJleHAiOjE3NTU4NTg1ODN9.SCztqgCtJ7CmD69PhAydxrGKmnj6sPeUtJSeBohiQrQ
+
+
 ### Create a new product
 POST http://localhost:3000/api/catalog/products
 Content-Type: application/json
+Authorization: Bearer {{token}}
 
 {
-  "name": "New Product",
-  "description": "This is a new product",
+  "name": "Iphone",
+  "description": "15 pro",
   "price": 29,
   "stock": 100
 }
 
 
 ### Update product
-PATCH http://localhost:3000/api/catalog/products/2
+PATCH http://localhost:3000/api/catalog/products/9
 Content-Type: application/json
+Authorization: Bearer {{token}}
 
 {
-  "name": "Updated Product"
+  "name": "Iphone 16 Pro"
 }
 
 
 ### Delete product
-DELETE http://localhost:3000/api/catalog/products/4
+DELETE http://localhost:3000/api/catalog/products/10
 Content-Type: application/json
+Authorization: Bearer {{token}}
 
 
 ### Get products by Limit and Offset
 GET http://localhost:3000/api/catalog/products?limit=10&offset=0
 Content-Type: application/json
+Authorization: Bearer {{token}}
 
 
 ### Get products by Id
-GET http://localhost:3000/api/catalog/products/2
+GET http://localhost:3000/api/catalog/products/9
 Content-Type: application/json
+Authorization: Bearer {{token}}

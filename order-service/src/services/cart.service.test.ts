@@ -18,7 +18,7 @@ describe("Cart Service Tests", () => {
 
     jest.spyOn(repo, "create").mockResolvedValue(mockCart as any);
 
-    const res = await service.create(mockCart, repository);
+    const res = await service.createCartItem(mockCart, repository);
 
     expect(res).toEqual(expect.objectContaining(mockCart));
   });
@@ -28,7 +28,7 @@ describe("Cart Service Tests", () => {
 
     jest.spyOn(repo, "delete").mockResolvedValue(mockCartId);
 
-    const res = await service.delete(mockCartId, repository);
+    const res = await service.deleteCartItem(mockCartId, repository);
 
     expect(res).toBe(mockCartId);
   });

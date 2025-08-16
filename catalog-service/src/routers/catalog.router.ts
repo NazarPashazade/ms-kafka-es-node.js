@@ -73,3 +73,13 @@ catalogRouter.delete("/products/:id", async (req, res) => {
     res.status(500).json((error as Error).message || "Internal Server Error");
   }
 });
+
+catalogRouter.post("/products/stock", async (req, res) => {
+  try {
+    const result = await catalogService.getStockDetails(req.body.ids);
+
+    res.status(201).json(result);
+  } catch (error) {
+    res.status(500).json((error as Error).message || "Internal Server Error");
+  }
+});

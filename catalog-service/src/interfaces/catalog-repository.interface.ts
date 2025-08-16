@@ -5,9 +5,11 @@ export interface ICatalogRepository {
 
   find(limit: number, offset: number): Promise<Product[]>;
 
+  findStock(ids: number[]): Promise<Product[]>;
+
   create(product: Product): Promise<Product>;
 
-  update(id: number, product: Product): Promise<Product | null>;
+  update(id: number, product: Product): Promise<Product>;
 
   delete(id: number): Promise<number>;
 }

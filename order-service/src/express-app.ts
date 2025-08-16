@@ -16,17 +16,17 @@ export const expressApp = async () => {
 
   // 1. Connect to Producer and Consumer
 
-  const producer = await messageBroker.connectProducer<Producer>();
-  producer.on("producer.connect", () => logger.info("Producer Connected"));
+  // const producer = await messageBroker.connectProducer<Producer>();
+  // producer.on("producer.connect", () => logger.info("Producer Connected"));
 
-  const consumer = await messageBroker.connectConsumer<Consumer>();
-  consumer.on("consumer.connect", () => logger.info("Consumer Connected"));
+  // const consumer = await messageBroker.connectConsumer<Consumer>();
+  // consumer.on("consumer.connect", () => logger.info("Consumer Connected"));
 
-  // 2. Subscribe to topic or Publish the message
+  // // 2. Subscribe to topic or Publish the message
 
-  await messageBroker.subscribe((message) => {
-    console.log(`Message received: ${message}`);
-  }, "OrderEvents");
+  // await messageBroker.subscribe((message) => {
+  //   console.log(`Message received: ${message}`);
+  // }, "OrderEvents");
 
   app.use("/api/orders", orderRouter);
   app.use("/api/cart", cartRouter);

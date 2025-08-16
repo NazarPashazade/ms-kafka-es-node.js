@@ -1,19 +1,25 @@
 import { NextFunction, Request, Response } from "express";
+import { validateUser } from "../utils";
 
 export const RequestAuthorizer = async (
   req: Request,
   res: Response,
   next: NextFunction
 ) => {
-  // console.log("RequestAuthorizer called", req.headers.authorization);
   try {
-    // if (!req.headers.authorization) {
-    //   return res
-    //     .status(403)
-    //     .json({ error: "Unauthorized due to authorization token missing!" });
-    // }
-    // const userData = await ValidateUser(req.headers.authorization as string);
-    (req as any).user = { customerId: 1 };
+    const token = req.headers.authorization as string;
+
+    console.log(`RequestAuthorizer called with: ${token}`);
+
+    if (!token)
+      return res
+        .status(403)
+        .json({ error: "Unauthorized: Authorization Token is missing" });
+
+    const authdata = await validateUser(token);
+
+    req.user = authdata;
+
     next();
   } catch (error) {
     console.log("error", error);

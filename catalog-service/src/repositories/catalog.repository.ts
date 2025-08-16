@@ -2,7 +2,6 @@ import { UpdateProductRequest } from "../dto/product.dto";
 import { PrismaClient } from "../generated/prisma";
 import type { ICatalogRepository } from "../interfaces/catalog-repository.interface";
 import type { Product } from "../models/product.model";
-import { NotFoundError } from "../utils/error";
 
 export class CatalogRepository implements ICatalogRepository {
   _prisma: PrismaClient;
@@ -11,10 +10,18 @@ export class CatalogRepository implements ICatalogRepository {
     this._prisma = new PrismaClient();
   }
 
+  async findStock(ids: number[]): Promise<Product[]> {
+    return await this._prisma.product.findMany({
+      where: {
+        id: {
+          in: ids,
+        },
+      },
+    });
+  }
+
   async findOne(id: number): Promise<Product | null> {
-    const product = await this._prisma.product.findFirst({ where: { id } });
-    if (!product) throw new NotFoundError(`Product with id ${id} not found`);
-    return product;
+    return await this._prisma.product.findFirst({ where: { id } });
   }
 
   async find(limit: number, offset: number): Promise<Product[]> {
@@ -25,10 +32,7 @@ export class CatalogRepository implements ICatalogRepository {
     return await this._prisma.product.create({ data: product as any });
   }
 
-  async update(
-    id: number,
-    product: UpdateProductRequest
-  ): Promise<Product | null> {
+  async update(id: number, product: UpdateProductRequest): Promise<Product> {
     return await this._prisma.product.update({ where: { id }, data: product });
   }
 

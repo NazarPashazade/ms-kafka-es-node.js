@@ -1,30 +1,36 @@
-### Create a new cart  by CustomerId
+@token = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiZW1haWwiOiJqb2huQGV4YW1wbGUuY29tIiwiaWF0IjoxNzU1MzQwMTgzLCJleHAiOjE3NTU4NTg1ODN9.SCztqgCtJ7CmD69PhAydxrGKmnj6sPeUtJSeBohiQrQ
+
+
+### Add new item to cart
 POST http://localhost:9003/api/cart
 Content-Type: application/json
+Authorization: Bearer {{token}}
 
 {
-  "customerId": 1,
-  "productId": 5,
-  "qty": 1
+  "productId": 9,
+  "qty": 15
 }
 
 
-### Update cart
-PATCH http://localhost:9003/api/cart/1
+### Update cart Item
+PATCH http://localhost:9003/api/cart/6
 Content-Type: application/json
+Authorization: Bearer {{token}}
 
 {
-  "qty": 55
+  "qty": 105
 }
 
 
-### Delete cart
+### Delete cart Item
 DELETE http://localhost:9003/api/cart/1
 Content-Type: application/json
+Authorization: Bearer {{token}}
 
 
-### Get cart by CustomerId
+### Get cart
 GET http://localhost:9003/api/cart
+Authorization: Bearer {{token}}
 
 
 
