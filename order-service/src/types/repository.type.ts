@@ -1,5 +1,6 @@
 import { Cart, CartItem } from "../db/schema";
 import { CartWithItems } from "../dto/cart-request.dto";
+import { OrderWithItems } from "../dto/order-request.dto";
 
 export type CartRepositoryType = {
   findCart: (customerId: number) => Promise<CartWithItems | undefined>;
@@ -16,4 +17,15 @@ export type CartRepositoryType = {
   updateCartItem: (id: number, qty: number) => Promise<CartItem>;
   deleteCartItem: (id: number) => Promise<Boolean>;
   clearCartItems: (id: number) => Promise<Boolean>;
+};
+
+export type OrderRepositoryType = {
+  createOrder: (order: OrderWithItems) => Promise<number>;
+  findOrder: (id: number) => Promise<OrderWithItems | undefined>;
+  findOrders: (customerId: number) => Promise<OrderWithItems[] | undefined>;
+  updateOrderStatus: (
+    id: number,
+    status: string
+  ) => Promise<OrderWithItems | undefined>;
+  cancelOrder: (id: number) => Promise<boolean>;
 };

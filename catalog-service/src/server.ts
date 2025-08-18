@@ -1,7 +1,6 @@
+import { PORT } from "./config";
 import expressApp from "./express-app";
 import { logger } from "./utils/logger";
-
-const PORT = 3000;
 
 export const startServer = async () => {
   expressApp.listen(PORT, () => {

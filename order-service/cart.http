@@ -7,8 +7,8 @@ Content-Type: application/json
 Authorization: Bearer {{token}}
 
 {
-  "productId": 11,
-  "qty": 10
+  "productId": 9,
+  "qty": 50
 }
 
 

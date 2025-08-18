@@ -3,10 +3,15 @@ import { CatalogRepository } from "../repositories/catalog.repository";
 import { CatalogService } from "../services/catalog.service";
 import { RequestValidator } from "../utils/request-validator";
 import { CreateProductRequest } from "../dto/product.dto";
+import { BrokerService } from "../services/broker.service";
 
 export const catalogRouter = express.Router();
 
 export const catalogService = new CatalogService(new CatalogRepository());
+
+export const brokerService = new BrokerService(catalogService);
+
+brokerService.initializeBroker();
 
 catalogRouter.post("/products", async (req, res) => {
   try {

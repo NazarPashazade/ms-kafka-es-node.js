@@ -1,33 +1,17 @@
 import * as express from "express";
-import { messageBroker } from "../utils/broker/message-broker";
-import { OrderEvent } from "../types";
+import { RequestAuthorizer } from "../middleware/auth.middleware";
+import { CartRepository as cartRepo } from "../repositories/cart.repository";
+import { OrderRepository as orderRepo } from "../repositories/order.repository";
+import { OrderService as orderService } from "../services/order.service";
+import { OrderStatus } from "../types";
 
 export const orderRouter = express.Router();
 
-const orderService: any = {};
-
-orderRouter.post("/", async (req, res) => {
+orderRouter.post("/", RequestAuthorizer, async (req, res) => {
   try {
-    const result = await orderService.create(req.body);
+    const user = req.user!;
 
-    await messageBroker.publish({
-      topic: "OrderEvents",
-      headers: { token: req.headers.authorization },
-      event: OrderEvent.CREATE_ORDER,
-      message: {
-        orderId: 1,
-        items: [
-          {
-            productId: 1,
-            quantity: 1,
-          },
-          {
-            productId: 2,
-            quantity: 2,
-          },
-        ],
-      },
-    });
+    const result = await orderService.createOrder(user.id, orderRepo, cartRepo);
 
     res.status(201).json(result);
   } catch (error) {
@@ -35,9 +19,11 @@ orderRouter.post("/", async (req, res) => {
   }
 });
 
-orderRouter.get("/", async (req, res) => {
+orderRouter.get("/", RequestAuthorizer, async (req, res) => {
   try {
-    const result = await orderService.get();
+    const user = req.user!;
+
+    const result = await orderService.getOrders(user.id!, orderRepo);
 
     res.status(200).json(result);
   } catch (error) {
@@ -45,11 +31,25 @@ orderRouter.get("/", async (req, res) => {
   }
 });
 
-orderRouter.get("/:id", async (req, res) => {
+orderRouter.get("/:id", RequestAuthorizer, async (req, res) => {
   try {
+    const user = req.user!;
+
     const id = Number(req.params.id || "0");
 
-    const result = await orderService.get(id);
+    const result = await orderService.getOrder(id, orderRepo);
+    res.status(200).json(result);
+  } catch (error) {
+    res.status(500).json((error as Error).message || "Internal Server Error");
+  }
+});
+
+// It will be called only by microservice
+orderRouter.patch("/:id", RequestAuthorizer, async (req, res) => {
+  try {
+    const id = Number(req.params.id || "0");
+    const status = req.body.status as OrderStatus;
+    const result = await orderService.updateOrderStatus(id, status, orderRepo);
 
     res.status(200).json(result);
   } catch (error) {
@@ -57,11 +57,13 @@ orderRouter.get("/:id", async (req, res) => {
   }
 });
 
-orderRouter.delete("/:id", async (req, res) => {
+orderRouter.delete("/:id", RequestAuthorizer, async (req, res) => {
   try {
+    const user = req.user!;
+
     const id = Number(req.params.id || "0");
 
-    const result = await orderService.delete(id);
+    const result = await orderService.cancelOrder(id, orderRepo);
 
     res.status(200).json(result);
   } catch (error) {

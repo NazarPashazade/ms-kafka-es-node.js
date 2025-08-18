@@ -45,4 +45,8 @@ export class CatalogService {
 
     return products;
   }
+
+  async handleBrokerMessage(message: any): Promise<void> {
+    console.log("Received message from broker:", message);
+  }
 }

@@ -12,15 +12,11 @@ interface UserPayload {
 }
 
 const generateToken = (user: UserPayload): string => {
-  if (!process.env.JWT_SECRET) {
-    throw new Error("JWT_SECRET is not defined");
-  }
-
   const options: jwt.SignOptions = {
     expiresIn: JWT_EXPIRES_IN as any,
   };
 
-  return jwt.sign(user, process.env.JWT_SECRET, options);
+  return jwt.sign(user, JWT_SECRET, options);
 };
 
 authRouter.post("/register", async (req, res) => {
@@ -77,10 +73,6 @@ authRouter.get("/validate", async (req, res) => {
 
   try {
     const tokenData = token.split(" ")[1];
-
-    if (!process.env.JWT_SECRET) {
-      throw new Error("JWT_SECRET is not defined");
-    }
 
     const user = jwt.verify(tokenData as any, JWT_SECRET!) as
       | UserPayload

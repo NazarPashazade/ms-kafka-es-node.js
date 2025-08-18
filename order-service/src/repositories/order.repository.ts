@@ -1,0 +1,86 @@
+import { eq } from "drizzle-orm";
+import { DB } from "../db/db-connection";
+import { orderItems, orders } from "../db/schema";
+import { OrderWithItems } from "../dto/order-request.dto";
+import { OrderRepositoryType } from "../types/repository.type";
+
+const createOrder = async (order: OrderWithItems) => {
+  const { amount, customerId, items, orderNumber, status, txnId } = order;
+
+  const result = await DB.insert(orders).values({
+    customerId,
+    amount,
+    status,
+    txnId,
+    orderNumber,
+  });
+
+  const orderId = (result as any)[0].id;
+
+  if (orderId) {
+    for (const item of items) {
+      await DB.insert(orderItems)
+        .values({
+          orderId,
+          qty: item.qty,
+          price: item.price,
+          itemName: item.itemName,
+          productId: item.productId,
+        })
+        .execute();
+    }
+
+    return orderId;
+  }
+};
+
+export const findOrder = async (
+  id: number
+): Promise<OrderWithItems | undefined> => {
+  const order = await DB.query.orders.findFirst({
+    where: eq(orders.id, id),
+    with: {
+      items: true,
+    },
+  });
+
+  return order as OrderWithItems;
+};
+
+export const findOrders = async (
+  customerId: number
+): Promise<OrderWithItems[] | undefined> => {
+  const ordersList = await DB.query.orders.findMany({
+    where: eq(orders.customerId, customerId),
+    with: {
+      items: true,
+    },
+  });
+
+  return ordersList as OrderWithItems[];
+};
+
+export const updateOrderStatus = async (
+  id: number,
+  status: string
+): Promise<OrderWithItems | undefined> => {
+  const order = await DB.update(orders)
+    .set({ status })
+    .where(eq(orders.id, id))
+    .returning();
+
+  return findOrder(id);
+};
+
+export const cancelOrder = async (id: number): Promise<boolean> => {
+  const result = await DB.delete(orders).where(eq(orders.id, id)).returning();
+  return !!result;
+};
+
+export const OrderRepository: OrderRepositoryType = {
+  createOrder,
+  findOrder,
+  findOrders,
+  updateOrderStatus,
+  cancelOrder,
+};

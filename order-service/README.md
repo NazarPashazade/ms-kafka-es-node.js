@@ -61,4 +61,5 @@ Create Types and install library
 
 ```
 npm i kafkajs
+npm i --save-dev @types/kafkajs
 ```

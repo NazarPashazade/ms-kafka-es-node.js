@@ -1,6 +1,6 @@
 import { Consumer, Kafka, logLevel, Partitioners, Producer } from "kafkajs";
 import { BROKERS, CLIENT_ID, GROUP_ID } from "../../config";
-import { MessageType, OrderEvent, TOPIC_TYPE } from "../../types";
+import { MessageType, CatalogEvent, TOPIC_TYPE } from "../../types";
 import { MessageBrokerType, MessageHandler, PublishType } from "./broker.type";
 
 const kafka = new Kafka({
@@ -35,7 +35,7 @@ const createTopics = async (topics: string[]) => {
 };
 
 const connectProducer = async <T>(): Promise<T> => {
-  await createTopics(["OrderEvents"]);
+  await createTopics(["CatalogEvents"]);
 
   if (!producer) {
     producer = await kafka.producer({
@@ -97,16 +97,16 @@ const subscribe = async (
   await consumer.subscribe({ topic, fromBeginning: true });
 
   await consumer.run({
-    eachMessage: async (msg) => {
+    eachMessage: async (msg: any) => {
       const { key, value, headers, offset } = msg.message;
 
-      const events = ["OrderEvents"];
+      const events = ["CatalogEvents"];
 
       if (!events.includes(topic)) return;
 
       if (key && value) {
         const inputMessage: MessageType = {
-          event: key.toString() as OrderEvent,
+          event: key.toString() as CatalogEvent,
           headers: headers ?? {},
           data: JSON.parse(value.toString()),
         };
