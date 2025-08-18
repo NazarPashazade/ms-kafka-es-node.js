@@ -1,45 +1,41 @@
 import { eq } from "drizzle-orm";
 import { DB } from "../db/db-connection";
-import { CartItem, cartItems, carts } from "../db/schema";
+import { Cart, CartItem, cartItems, carts } from "../db/schema";
 import { CartWithItems } from "../dto/cart-request.dto";
 import { CartRepositoryType } from "../types/repository.type";
-import { NotFoundError } from "../utils";
 
 export const CartRepository: CartRepositoryType = {
+  createCart: async function (customerId: number): Promise<Cart> {
+    const [cart] = await DB.insert(carts).values({ customerId }).returning();
+    return cart!;
+  },
+
   addCartItem: async function (
     customerId: number,
+    cartId: number,
     cartItem: CartItem
   ): Promise<number> {
     const { price, itemName, qty, variant, productId } = cartItem;
 
-    const result = await DB.insert(carts).values({ customerId }).returning();
-    const cartId = result[0]?.id!;
-
-    if (cartId > 0) {
-      await DB.insert(cartItems).values({
-        cartId,
-        productId,
-        itemName,
-        price,
-        qty,
-        variant,
-      });
-    }
+    await DB.insert(cartItems).values({
+      cartId,
+      productId,
+      itemName,
+      price,
+      qty,
+      variant,
+    });
 
     return cartId;
   },
 
-  findCart: async function (customerId: number): Promise<CartWithItems> {
-    const cart = await DB.query.carts.findFirst({
+  findCart: async function (
+    customerId: number
+  ): Promise<CartWithItems | undefined> {
+    return await DB.query.carts.findFirst({
       where: eq(carts.customerId, customerId),
       with: { items: true },
     });
-
-    if (!cart) throw new NotFoundError("Cart not found!");
-
-    if (!cart.items.length) throw new NotFoundError("Cart is empty!");
-
-    return cart;
   },
 
   updateCartItem: async function (id: number, qty: number): Promise<CartItem> {

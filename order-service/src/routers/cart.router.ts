@@ -33,7 +33,7 @@ cartRouter.get("/", RequestAuthorizer, async (req, res, next) => {
   try {
     const user = req.user!;
 
-    const result = await service.findCart(user.id, cartRepo);
+    const result = await service.findCartWithItems(user.id, cartRepo);
 
     res.status(200).json(result);
   } catch (error) {

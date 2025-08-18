@@ -1,0 +1,33 @@
+@token = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiZW1haWwiOiJqb2huQGV4YW1wbGUuY29tIiwiaWF0IjoxNzU1MzQwMTgzLCJleHAiOjE3NTU4NTg1ODN9.SCztqgCtJ7CmD69PhAydxrGKmnj6sPeUtJSeBohiQrQ
+
+
+### Add new item to cart
+POST http://localhost:9003/api/cart
+Content-Type: application/json
+Authorization: Bearer {{token}}
+
+{
+  "productId": 11,
+  "qty": 10
+}
+
+
+### Update cart Item
+PATCH http://localhost:9003/api/cart/4
+Content-Type: application/json
+Authorization: Bearer {{token}}
+
+{
+  "qty": 50
+}
+
+
+### Delete cart Item
+DELETE http://localhost:9003/api/cart/1
+Content-Type: application/json
+Authorization: Bearer {{token}}
+
+
+### Get cart
+GET http://localhost:9003/api/cart
+Authorization: Bearer {{token}}

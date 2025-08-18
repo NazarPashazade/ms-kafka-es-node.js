@@ -14,10 +14,14 @@ async function verifyCartOwnership(
 ) {
   const cart = await repo.findCart(customerId);
 
+  if (!cart) throw new NotFoundError("Cart not found!");
+
   const item = cart.items.find((item) => item.id === itemId);
 
   if (!item) {
-    throw new AuthorizeError("You are not authorized to edit this cart!");
+    throw new AuthorizeError(
+      "Not Found: You are not authorized to edit this cart!"
+    );
   }
 }
 
@@ -39,6 +43,7 @@ async function addNewItemToCart(
     productId
   );
 
+  // update quantity if product is already in cart
   if (existingCartItem) {
     return repo.updateCartItem(existingCartItem.id, existingCartItem.qty + qty);
   }
@@ -55,11 +60,22 @@ async function addNewItemToCart(
     cartId: 0,
   };
 
-  return await repo.addCartItem(customerId, cartItem);
+  const cart = await repo.findCart(customerId);
+
+  if (!cart) {
+    const newCart = await repo.createCart(customerId);
+    return await repo.addCartItem(customerId, newCart.id, cartItem);
+  }
+
+  return await repo.addCartItem(customerId, cart.id, cartItem);
 }
 
-async function findCart(customerId: number, repo: CartRepositoryType) {
+async function findCartWithItems(customerId: number, repo: CartRepositoryType) {
   const cart = await repo.findCart(customerId);
+
+  if (!cart) throw new NotFoundError("Cart not found!");
+
+  if (!cart.items.length) throw new NotFoundError("Cart is empty!");
 
   const productIds = cart.items.map((item) => item.productId);
 
@@ -93,7 +109,7 @@ async function deleteCartItem(
 
 export const CartService = {
   addNewItemToCart,
-  findCart,
+  findCartWithItems,
   updateCartItem,
   deleteCartItem,
   verifyCartOwnership,
