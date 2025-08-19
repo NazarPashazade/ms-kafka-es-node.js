@@ -53,8 +53,12 @@ export const CartRepository: CartRepositoryType = {
   },
 
   clearCartItems: async function (id: number): Promise<Boolean> {
-    await DB.delete(carts).where(eq(carts.id, id)).returning();
-    return true;
+    const result = await DB.delete(carts)
+      .where(eq(carts.customerId, id))
+      .returning();
+
+    console.log({ id, result });
+    return !!result;
   },
 
   findCartItemByProductId: async function (
@@ -69,8 +73,6 @@ export const CartRepository: CartRepositoryType = {
         },
       },
     });
-
-    console.log({ cart });
 
     if (!cart) return null;
 

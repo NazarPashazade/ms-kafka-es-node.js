@@ -1,23 +1,24 @@
-@token = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiZW1haWwiOiJqb2huQGV4YW1wbGUuY29tIiwiaWF0IjoxNzU1NTAzNzc0LCJleHAiOjE3NTYwMjIxNzR9.-kg8Z6wlRZ_9i5oHnChB5QvoZW0oRla8SoBZfJLuAcg
+@TOKEN = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiZW1haWwiOiJqb2huQGV4YW1wbGUuY29tIiwiaWF0IjoxNzU1NTkzMDc0LCJleHAiOjE3NTYxMTE0NzR9.YFVgUB1k1QygBuSxmZ7FJ4kwQKpheZsAvJA01uoLcuI
+@BASE_URL = http://localhost:3000/api/catalog/products
 
 
 ### Create a new product
-POST http://localhost:3000/api/catalog/products
+POST {{BASE_URL}}
 Content-Type: application/json
-Authorization: Bearer {{token}}
+Authorization: Bearer {{TOKEN}}
 
 {
-  "name": "Iphone",
-  "description": "15 pro",
+  "name": "XIOMI NOTE",
+  "description": "NOTE 15 Pro",
   "price": 29,
   "stock": 100
 }
 
 
 ### Update product
-PATCH http://localhost:3000/api/catalog/products/9
+PATCH {{BASE_URL}}/10
 Content-Type: application/json
-Authorization: Bearer {{token}}
+Authorization: Bearer {{TOKEN}}
 
 {
   "name": "Iphone 16 Pro"
@@ -25,18 +26,18 @@ Authorization: Bearer {{token}}
 
 
 ### Delete product
-DELETE http://localhost:3000/api/catalog/products/10
+DELETE {{BASE_URL}}/10
 Content-Type: application/json
-Authorization: Bearer {{token}}
+Authorization: Bearer {{TOKEN}}
 
 
 ### Get products by Limit and Offset
-GET http://localhost:3000/api/catalog/products?limit=10&offset=0
+GET {{BASE_URL}}?limit=10&offset=0
 Content-Type: application/json
-Authorization: Bearer {{token}}
+Authorization: Bearer {{TOKEN}}
 
 
 ### Get products by Id
-GET http://localhost:3000/api/catalog/products/9
+GET {{BASE_URL}}/9
 Content-Type: application/json
-Authorization: Bearer {{token}}
+Authorization: Bearer {{TOKEN}}

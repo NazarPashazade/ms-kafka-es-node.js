@@ -7,25 +7,29 @@ import { OrderRepositoryType } from "../types/repository.type";
 const createOrder = async (order: OrderWithItems) => {
   const { amount, customerId, items, orderNumber, status, txnId } = order;
 
-  const result = await DB.insert(orders).values({
-    customerId,
-    amount,
-    status,
-    txnId,
-    orderNumber,
-  });
+  const result = await DB.insert(orders)
+    .values({
+      customerId,
+      amount,
+      status,
+      txnId,
+      orderNumber,
+    })
+    .returning({ id: orders.id });
 
   const orderId = (result as any)[0].id;
 
   if (orderId) {
     for (const item of items) {
+      const { amount, productId, itemName, qty } = item;
+
       await DB.insert(orderItems)
         .values({
           orderId,
-          qty: item.qty,
-          price: item.price,
-          itemName: item.itemName,
-          productId: item.productId,
+          qty,
+          amount: amount.toString(),
+          itemName,
+          productId,
         })
         .execute();
     }
@@ -73,6 +77,7 @@ export const updateOrderStatus = async (
 };
 
 export const cancelOrder = async (id: number): Promise<boolean> => {
+  console.log({ id });
   const result = await DB.delete(orders).where(eq(orders.id, id)).returning();
   return !!result;
 };

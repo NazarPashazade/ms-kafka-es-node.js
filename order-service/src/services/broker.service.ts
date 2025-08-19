@@ -1,22 +1,24 @@
 import { Consumer, Producer } from "kafkajs";
-import { messageBroker } from "../utils/broker/message-broker";
-import { OrderService } from "./order.service";
 import { OrderEvent } from "../types";
+import { messageBroker } from "../utils/broker/message-broker";
 
 const initializeBroker = async () => {
-  const producer = await messageBroker.connectConsumer<Producer>();
+  const producer = await messageBroker.connectProducer<Producer>();
 
-  producer.on("producer.connect", () => {
+  producer.on("producer.connect", async () => {
     console.log("Order Service: Producer connected successfully");
   });
 
   const consumer = await messageBroker.connectConsumer<Consumer>();
 
-  consumer.on("consumer.connect", () => {
+  consumer.on("consumer.connect", async () => {
     console.log("Order Service: Consumer connected successfully");
   });
 
-  await messageBroker.subscribe(OrderService.handleSubscription, "OrderEvents");
+  await messageBroker.subscribe(
+    (message: any) => console.log({ message }),
+    "OrderEvents"
+  );
 };
 
 const sendCreateOrderMessage = async (message: any) => {

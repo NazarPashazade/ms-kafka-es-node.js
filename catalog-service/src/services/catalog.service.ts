@@ -39,9 +39,7 @@ export class CatalogService {
   async getStockDetails(ids: number[]): Promise<Product[]> {
     const products = await this._catalogRepository.findStock(ids);
 
-    if (!products) {
-      throw new Error("Unable to find product stock details");
-    }
+    if (!products) throw new Error("Unable to find product stock details");
 
     return products;
   }

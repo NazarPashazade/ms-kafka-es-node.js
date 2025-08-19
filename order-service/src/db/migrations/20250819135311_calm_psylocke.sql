@@ -22,6 +22,7 @@ CREATE TABLE "order_items" (
 	"item_name" varchar NOT NULL,
 	"qty" integer NOT NULL,
 	"amount" numeric NOT NULL,
+	"product_id" integer NOT NULL,
 	"order_id" integer NOT NULL,
 	"created_at" timestamp DEFAULT now() NOT NULL,
 	"updated_at" timestamp DEFAULT now() NOT NULL
@@ -32,7 +33,7 @@ CREATE TABLE "orders" (
 	"order_number" integer NOT NULL,
 	"customer_id" integer NOT NULL,
 	"amount" numeric NOT NULL,
-	"status" varchar NOT NULL,
+	"status" varchar,
 	"txn_id" varchar NOT NULL,
 	"created_at" timestamp DEFAULT now() NOT NULL,
 	"updated_at" timestamp DEFAULT now() NOT NULL,

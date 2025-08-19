@@ -1,7 +1,7 @@
 import * as express from "express";
 import { catalogRouter } from "./routers/catalog.router";
-import { httpLogger } from "./utils/logger";
 import { HandleErrorWithLogger } from "./utils/error";
+import { httpLogger } from "./utils/logger";
 
 const app = express();
 

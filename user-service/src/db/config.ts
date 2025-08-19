@@ -1,10 +1,10 @@
 import { Pool, QueryResult } from "pg";
 import * as dotenv from "dotenv";
-import { DB_URL } from "../config";
+import { DATABASE_URL } from "../config";
 
 dotenv.config();
 
-const pool = new Pool({ connectionString: DB_URL });
+const pool = new Pool({ connectionString: DATABASE_URL });
 
 pool.on("connect", () => {
   console.log("connected to the db");

@@ -28,7 +28,7 @@ const createOrder = async (
     orderItems.push({
       itemName: item.itemName,
       qty: item.qty,
-      price: item.price,
+      amount: item.price,
       productId: item.productId,
     } as OrderItemType);
   });
@@ -68,7 +68,10 @@ const updateOrderStatus = async (
   return { message: "Order status updated successfully", orderId, status };
 };
 
-const getOrder = async (orderId: number, orderRepo: OrderRepositoryType) => {
+const getOrder = async (
+  orderId: number,
+  orderRepo: OrderRepositoryType
+): Promise<OrderWithItems> => {
   const order = await orderRepo.findOrder(orderId);
 
   if (!order) throw new Error("Order not found");
@@ -89,9 +92,10 @@ const getOrders = async (
   return orders;
 };
 
-const cancelOrder = async (orderId: number, orderRepo: OrderRepositoryType) => {
-  const order = await orderRepo.cancelOrder(orderId);
-  return !!order;
+const deleteOrder = async (orderId: number, orderRepo: OrderRepositoryType) => {
+  const order = await getOrder(orderId, orderRepo);
+  const result = await orderRepo.cancelOrder(order.id!);
+  return !!result;
 };
 
 const handleSubscription = async (message: MessageType) => {
@@ -104,6 +108,6 @@ export const OrderService = {
   updateOrderStatus,
   getOrder,
   getOrders,
-  cancelOrder,
+  deleteOrder,
   handleSubscription,
 };

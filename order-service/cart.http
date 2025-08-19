@@ -1,21 +1,22 @@
-@token = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiZW1haWwiOiJqb2huQGV4YW1wbGUuY29tIiwiaWF0IjoxNzU1MzQwMTgzLCJleHAiOjE3NTU4NTg1ODN9.SCztqgCtJ7CmD69PhAydxrGKmnj6sPeUtJSeBohiQrQ
+@TOKEN = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiZW1haWwiOiJqb2huQGV4YW1wbGUuY29tIiwiaWF0IjoxNzU1NTkzMDc0LCJleHAiOjE3NTYxMTE0NzR9.YFVgUB1k1QygBuSxmZ7FJ4kwQKpheZsAvJA01uoLcuI
+@BASE_URL = http://localhost:3002/api/cart
 
 
 ### Add new item to cart
-POST http://localhost:9003/api/cart
+POST {{BASE_URL}}
 Content-Type: application/json
-Authorization: Bearer {{token}}
+Authorization: Bearer {{TOKEN}}
 
 {
-  "productId": 9,
-  "qty": 50
+  "productId": 11,
+  "qty": 15
 }
 
 
 ### Update cart Item
-PATCH http://localhost:9003/api/cart/4
+PATCH {{BASE_URL}}/4
 Content-Type: application/json
-Authorization: Bearer {{token}}
+Authorization: Bearer {{TOKEN}}
 
 {
   "qty": 50
@@ -23,11 +24,11 @@ Authorization: Bearer {{token}}
 
 
 ### Delete cart Item
-DELETE http://localhost:9003/api/cart/1
+DELETE {{BASE_URL}}/11
 Content-Type: application/json
-Authorization: Bearer {{token}}
+Authorization: Bearer {{TOKEN}}
 
 
 ### Get cart
-GET http://localhost:9003/api/cart
-Authorization: Bearer {{token}}
+GET {{BASE_URL}}/cart
+Authorization: Bearer {{TOKEN}}

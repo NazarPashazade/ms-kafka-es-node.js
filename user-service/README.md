@@ -14,5 +14,5 @@ npm install pg
 ### adjust .env file:
 
 ```
-DB_URL="postgresql://postgres:Database123!@localhost:5432/user-db?schema=public"
+DATABASE_URL="postgresql://postgres:Database123!@localhost:5432/user-db?schema=public"
 ```

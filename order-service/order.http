@@ -1,23 +1,34 @@
-### Create Order
-POST http://localhost:9003/api/orders
-Content-Type: application/json
+@TOKEN = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiZW1haWwiOiJqb2huQGV4YW1wbGUuY29tIiwiaWF0IjoxNzU1NTkzMDc0LCJleHAiOjE3NTYxMTE0NzR9.YFVgUB1k1QygBuSxmZ7FJ4kwQKpheZsAvJA01uoLcuI
+@BASE_URL = http://localhost:3002/api/orders
 
-{
-  "name": "New Product",
-  "description": "This is a new product",
-  "price": 29,
-  "stock": 100
-}
+
+### Create Order
+POST {{BASE_URL}}
+Content-Type: application/json
+Authorization: Bearer {{TOKEN}}
 
 
 ### Delete Order
-DELETE http://localhost:9003/api/orders/1
+DELETE {{BASE_URL}}/4
 Content-Type: application/json
+Authorization: Bearer {{TOKEN}}
 
 
-### Get Orders
-GET http://localhost:9003/api/orders
+### Get All Orders for Customer
+GET {{BASE_URL}}?customerId=1
+Authorization: Bearer {{TOKEN}}
 
 
 ### Get Order by ID
-GET http://localhost:9003/api/orders/1
+GET {{BASE_URL}}/1
+Authorization: Bearer {{TOKEN}}
+
+
+### Update Order Status
+PATCH {{BASE_URL}}/1/status
+Content-Type: application/json
+Authorization: Bearer {{TOKEN}}
+
+{
+  "status": "CANCELLED"
+}

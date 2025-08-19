@@ -63,7 +63,7 @@ orderRouter.delete("/:id", RequestAuthorizer, async (req, res) => {
 
     const id = Number(req.params.id || "0");
 
-    const result = await orderService.cancelOrder(id, orderRepo);
+    const result = await orderService.deleteOrder(id, orderRepo);
 
     res.status(200).json(result);
   } catch (error) {
