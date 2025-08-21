@@ -20,15 +20,15 @@ Authorization: Bearer {{TOKEN}}
 
 
 ### Get Order by ID
-GET {{BASE_URL}}/1
+GET {{BASE_URL}}/24
 Authorization: Bearer {{TOKEN}}
 
 
 ### Update Order Status
-PATCH {{BASE_URL}}/1/status
+PATCH {{BASE_URL}}/24
 Content-Type: application/json
 Authorization: Bearer {{TOKEN}}
 
 {
-  "status": "CANCELLED"
+  "status": "PENDING"
 }

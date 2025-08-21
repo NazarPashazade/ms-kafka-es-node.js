@@ -46,11 +46,7 @@ const createOrder = async (
 
   const result = await cartRepo.clearCartItems(customerId);
 
-  console.log({ orderId, ClearResult: result });
-
-  await brokerService.sendCreateOrderMessage({
-    order: orderInput,
-  });
+  await brokerService.sendCreateOrderMessage(orderInput);
 
   return { message: "Order created successfully", orderNumber };
 };

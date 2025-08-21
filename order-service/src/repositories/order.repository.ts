@@ -77,7 +77,6 @@ export const updateOrderStatus = async (
 };
 
 export const cancelOrder = async (id: number): Promise<boolean> => {
-  console.log({ id });
   const result = await DB.delete(orders).where(eq(orders.id, id)).returning();
   return !!result;
 };

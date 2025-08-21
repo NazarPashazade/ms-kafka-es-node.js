@@ -56,8 +56,6 @@ export const CartRepository: CartRepositoryType = {
     const result = await DB.delete(carts)
       .where(eq(carts.customerId, id))
       .returning();
-
-    console.log({ id, result });
     return !!result;
   },
 
